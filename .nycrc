@@ -1,0 +1,22 @@
+{
+    "exclude": [
+        "node_modules/**"
+    ],
+    "include": [
+        "src/**/*.js"
+    ],
+    "extension": [
+        ".js"
+    ],
+    "require": [
+        "babel-core/register"
+    ],
+    "reporter": [
+        "text-summary",
+        "html"
+    ],
+    "sourceMap": false,
+    "instrument": false,
+    "report-dir": "./test/coverage",
+    "temp-directory": "./test/.nyc_output"
+}
