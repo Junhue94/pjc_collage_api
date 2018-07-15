@@ -4,5 +4,8 @@ export const logger = createLogger({
     transports: [
         new transports.Console()
     ],
-    format: format.simple()
+    format: format.combine(
+        format.colorize(),
+        format.simple()
+    )
 });

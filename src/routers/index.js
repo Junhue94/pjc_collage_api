@@ -1,5 +1,5 @@
-import HomeRouter from './HomeRouter'
+import TaskRouter from './TaskRouter'
 
 export const routers = app => {
-    app.use('/', HomeRouter);
+    app.use('/api/task', TaskRouter);
 };
