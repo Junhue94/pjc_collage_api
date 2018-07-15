@@ -2,26 +2,21 @@ import { TaskModel } from '../models/TaskModel';
 import { logger } from '../modules/Logger';
 
 export const createTask = (req, res) => {
-    const data = {
-        name: 'Tan Ming Liang',
-        class: '12S23',
-        email: 'tan@test.com',
-        drawing: [{}, {}],
-        status: 'approved',
-        vettedBy: 'Me',
-    };
+    const newTask = new TaskModel(req.body);
     
-    const model = new TaskModel(data);
-    
-    return model
+    return newTask
         .save()
-        .then(em => {
+        .then((em) => {
             res.json(em);
-            logger.info(`Task created: ${em._id}`);
+            logger.info(`Create Task: ${em._id}`);
         })
         .catch(err => logger.error(`Error in creating Task: ${err}`));
 };
 
-export const findTask = (req, res) => {
-    res.send('Find Task');
-};
+export const findTask = (req, res) => TaskModel
+    .find({})
+    .then((em) => {
+        res.json(em);
+        logger.info(`Find Task: ${em.length} record(s) found`);
+    })
+    .catch(err => logger.error(`Error in finding Task: ${err}`));

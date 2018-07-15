@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 import { TASK_COLLECTION } from './collection';
+import { AdminSchema } from './AdminModel';
 
 const TaskSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     class: {
         type: String,
@@ -12,14 +13,14 @@ const TaskSchema = new mongoose.Schema({
     },
     email: String,
     drawing: {
-        type: Array
+        type: Array,
     },
     status: String,
-    vettedBy: String,
+    vettedBy: AdminSchema,
     createdOn: {
         type: Date,
-        default: Date.now
-    }
+        default: Date.now,
+    },
 });
 
 export const TaskModel = mongoose.model('Task', TaskSchema, TASK_COLLECTION);

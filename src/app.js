@@ -1,17 +1,19 @@
-import express from 'express'
+import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import compression from 'compression';
 import helmet from 'helmet';
 import path from 'path';
-import { routers } from './routers'
+import Config from 'config';
+import { routers } from './routers';
 import { logger } from './modules/Logger';
-import Config from "config";
 
 // Create Express server
 export const app = express();
-const { user, password, host, database, options } = Config.get('mongo');
+const {
+    user, password, host, database, options,
+} = Config.get('mongo');
 
 // Database connection
 if (process.env.NODE_ENV === 'development') {
@@ -42,7 +44,7 @@ app.use((req, res, next) => {
 });
 
 // Error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     logger.error('Error Handler', err);
     res.status(err.status || 500);
     res.send('Error');

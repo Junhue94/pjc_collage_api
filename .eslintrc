@@ -1,0 +1,62 @@
+{
+    "env": {
+        "browser": true
+    },
+    "parser": "babel-eslint",
+    "extends": "airbnb-base",
+    "rules": {
+        "import/prefer-default-export": "off",
+        // this option sets a specific tab width for your code
+        "indent": ["error", 4, {
+            "SwitchCase": 1,
+            "VariableDeclarator": 1,
+            "outerIIFEBody": 1,
+            "FunctionDeclaration": {
+                "parameters": 1,
+                "body": 1
+            },
+            "FunctionExpression": {
+                "parameters": 1,
+                "body": 1
+            },
+            "CallExpression": {
+                "arguments": 1
+            },
+            "ArrayExpression": 1,
+            "ObjectExpression": 1,
+            "ImportDeclaration": 1,
+            "flatTernaryExpressions": false,
+            "ignoredNodes": ["JSXElement", "JSXElement *"]
+        }],
+        // ignore line-break rule
+        "linebreak-style": 0,
+        // disallow reassignment of function parameters
+        // disallow parameter object manipulation except for specific exclusions
+        "no-param-reassign": ["error", {
+            "props": true,
+            "ignorePropertyModificationsFor": [
+                "acc", // for reduce accumulators
+                "e", // for e.returnvalue
+                "ctx", // for Koa routing
+                "req", // for Express requests
+                "request", // for Express requests
+                "res", // for Express responses
+                "response", // for Express responses
+                "$scope", // for Angular 1 scopes
+                "hook" // for FeathersJS hook params
+            ]
+        }],
+        // disallow trailing whitespace at the end of lines
+        "no-trailing-spaces": ["error", {
+            "skipBlankLines": true,
+            "ignoreComments": false
+        }],
+        // disallow dangling underscores in identifiers
+        "no-underscore-dangle": ["error", {
+            "allow": ["_id", "_objects"],
+            "allowAfterThis": false,
+            "allowAfterSuper": false,
+            "enforceInMethodNames": false
+        }]
+    }
+}
