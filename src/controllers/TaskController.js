@@ -10,13 +10,21 @@ export const createTask = (req, res) => {
             res.json(em);
             logger.info(`Create Task: ${em._id}`);
         })
-        .catch(err => logger.error(`Error in creating Task: ${err}`));
+        .catch(err => logger.error(`Error in create Task: ${err}`));
 };
 
 export const findTask = (req, res) => TaskModel
-    .find({})
+    .find(req.query)
     .then((em) => {
         res.json(em);
         logger.info(`Find Task: ${em.length} record(s) found`);
     })
-    .catch(err => logger.error(`Error in finding Task: ${err}`));
+    .catch(err => logger.error(`Error in find Task: ${err}`));
+
+export const getTask = (req, res) => TaskModel
+    .findById(req.params.id)
+    .then((em) => {
+        res.json(em);
+        logger.info(`Get Task: ${em._id}`);
+    })
+    .catch(err => logger.error(`Error in get Task: ${err}`));
