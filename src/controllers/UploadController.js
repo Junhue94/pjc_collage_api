@@ -7,12 +7,14 @@ const {
     accessKeyId,
     secretAccessKey,
     region,
+    signatureVersion,
     bucketAssetTmp,
 } = Config.get('s3');
 const s3 = new AWS.S3({
     accessKeyId,
     secretAccessKey,
     region,
+    signatureVersion,
 });
 
 export const createAssetTmp = (req, res) => {
@@ -21,6 +23,7 @@ export const createAssetTmp = (req, res) => {
         Bucket: bucketAssetTmp,
         ContentType: 'image/png',
         Key: key,
+        Expires: 600, // expires in 60 seconds
     };
     
     s3.getSignedUrl('putObject', options, (err, url) => {
