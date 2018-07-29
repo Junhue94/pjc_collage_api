@@ -33,6 +33,10 @@ const TaskSchema = new mongoose.Schema({
         type: Date,
         default: null,
     },
+    assetUrl: {
+        type: String,
+        default: null,
+    },
     collageUrl: {
         type: String,
         default: null,
