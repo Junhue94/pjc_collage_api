@@ -14,12 +14,24 @@ const TaskSchema = new mongoose.Schema({
     email: String,
     drawing: {
         type: Array,
+        default: null,
     },
-    status: String,
-    vettedBy: AdminSchema,
+    status: {
+        type: String,
+        default: 'pending',
+        enum: ['pending', 'approved', 'rejected'],
+    },
+    vettedBy: {
+        type: AdminSchema,
+        default: null,
+    },
     createdOn: {
         type: Date,
         default: Date.now,
+    },
+    updatedOn: {
+        type: Date,
+        default: null,
     },
 });
 
