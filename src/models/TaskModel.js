@@ -33,6 +33,10 @@ const TaskSchema = new mongoose.Schema({
         type: Date,
         default: null,
     },
+    collageUrl: {
+        type: String,
+        default: null,
+    },
 });
 
 export const TaskModel = mongoose.model('Task', TaskSchema, TASK_COLLECTION);

@@ -29,10 +29,17 @@ export const getTask = (req, res) => TaskModel
     })
     .catch(err => logger.error(`Error in get Task: ${err}`));
 
-export const updateTask = (req, res) => TaskModel
-    .findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
-    .then((em) => {
-        res.json(em);
-        logger.info(`Update Task: ${em._id}`);
-    })
-    .catch(err => logger.error(`Error in update Task: ${err}`));
+export const updateTask = (req, res) => {
+    const updatedTask = {
+        ...req.body,
+        collageUrl: req.file.location,
+    };
+    
+    TaskModel
+        .findByIdAndUpdate(req.params.id, { $set: updatedTask }, { new: true })
+        .then((em) => {
+            res.json(em);
+            logger.info(`Update Task: ${em._id}`);
+        })
+        .catch(err => logger.error(`Error in update Task: ${err}`));
+};
