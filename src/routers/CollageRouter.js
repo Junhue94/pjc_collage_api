@@ -7,10 +7,8 @@ const router = express.Router();
 
 const { folderAsset } = Config.get('s3');
 
-router.route('/asset')
-    .post(uploadImage(folderAsset), createAssetImage);
-
-router.route('/url')
+router.route('/')
+    .post(uploadImage(folderAsset), createAssetImage)
     .get(getCollageUrl);
 
 export default router;
