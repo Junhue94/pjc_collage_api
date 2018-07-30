@@ -6,9 +6,13 @@ import { AdminModel } from '../models/AdminModel';
 const { saltRounds } = Config.get('token');
 
 export const createAdmin = async (req, res) => {
-    const hashedPassword = bcrypt.hash(req.body.password, saltRounds);
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+    const adminUser = {
+        ...req.body,
+        password: hashedPassword,
+    };
 
-    const newAdmin = new AdminModel(req.body);
+    const newAdmin = new AdminModel(adminUser);
 
     return newAdmin
         .save()

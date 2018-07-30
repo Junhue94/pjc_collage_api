@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import passportLocalMongoose from 'passport-local-mongoose';
 import { ADMIN_COLLECTION } from './collection';
 
 export const AdminSchema = new mongoose.Schema({
@@ -15,6 +16,11 @@ export const AdminSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+});
+
+AdminSchema.plugin(passportLocalMongoose, {
+    usernameField: 'user',
+    hashField: 'password',
 });
 
 export const AdminModel = mongoose.model('Admin', AdminSchema, ADMIN_COLLECTION);
