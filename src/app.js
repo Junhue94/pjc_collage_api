@@ -37,8 +37,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
     name: 'pjc_collage',
     secret: sessionSecret,
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     cookie: {
         maxAge: cookieMaxAge,
     },
