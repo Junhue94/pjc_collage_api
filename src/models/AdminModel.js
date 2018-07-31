@@ -1,9 +1,12 @@
 import mongoose from 'mongoose';
-import passportLocalMongoose from 'passport-local-mongoose';
+import bcrypt from 'bcrypt';
+import Config from 'config';
 import { ADMIN_COLLECTION } from './collection';
 
+const { saltRounds } = Config.get('token');
+
 export const AdminSchema = new mongoose.Schema({
-    user: {
+    username: {
         type: String,
         required: true,
         unique: true,
@@ -18,9 +21,7 @@ export const AdminSchema = new mongoose.Schema({
     },
 });
 
-AdminSchema.plugin(passportLocalMongoose, {
-    usernameField: 'user',
-    hashField: 'password',
-});
+AdminSchema.methods.generateHash = password => bcrypt.hash(password, saltRounds);
+AdminSchema.methods.comparePassword = password => bcrypt.compare(password, this.password);
 
 export const AdminModel = mongoose.model('Admin', AdminSchema, ADMIN_COLLECTION);

@@ -3,14 +3,13 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
-import passport from 'passport';
 import compression from 'compression';
 import helmet from 'helmet';
 import path from 'path';
 import Config from 'config';
+import passport from './modules/Passport';
 import { routers } from './routers';
 import { logger } from './modules/Logger';
-import { AdminModel } from './models/AdminModel';
 
 // Create Express server
 export const app = express();
@@ -38,24 +37,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
     name: 'pjc_collage',
     secret: sessionSecret,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
         maxAge: cookieMaxAge,
     },
 }));
-
-
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(AdminModel.createStrategy());
-passport.serializeUser(AdminModel.serializeUser());
-passport.deserializeUser(AdminModel.deserializeUser());
-
 app.use(express.static(path.join(__dirname, 'assets')));
 app.use(morgan('combined'));
 app.use(compression());
 app.use(helmet());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Run routes
 routers(app);
