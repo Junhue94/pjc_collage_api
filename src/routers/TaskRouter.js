@@ -8,7 +8,7 @@ import {
     updateTask,
 } from '../controllers/TaskController';
 
-const { folderCollage } = Config.get('s3');
+const { folderAsset } = Config.get('s3');
 
 const router = express.Router();
 
@@ -18,6 +18,6 @@ router.route('/')
 
 router.route('/:id')
     .get(getTask)
-    .put(uploadImage(folderCollage), updateTask);
+    .put(uploadImage(folderAsset), updateTask);
 
 export default router;
