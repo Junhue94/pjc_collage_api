@@ -22,6 +22,6 @@ export const AdminSchema = new mongoose.Schema({
 });
 
 AdminSchema.methods.generateHash = password => bcrypt.hash(password, saltRounds);
-AdminSchema.methods.comparePassword = password => bcrypt.compare(password, this.password);
+AdminSchema.methods.comparePassword = (password, hash) => bcrypt.compare(password, hash);
 
 export const AdminModel = mongoose.model('Admin', AdminSchema, ADMIN_COLLECTION);
