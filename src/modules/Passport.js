@@ -1,19 +1,12 @@
 import passport from 'passport';
+import Config from 'config';
 import LocalStrategy from 'passport-local';
+import { Strategy as JwtStrategy } from 'passport-jwt';
 import { AdminModel } from '../models/AdminModel';
 import { logger } from './Logger';
 import { throwError } from '../utils/error';
 
-passport.serializeUser((user, done) => {
-    done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-    AdminModel
-        .findById(id)
-        .then(res => done(null, res))
-        .catch(err => logger.error(`Error in deserializing user: ${err}`));
-});
+const { secret } = Config.get('token');
 
 passport.use(
     'local',
@@ -23,7 +16,7 @@ passport.use(
             .then(async (admin) => {
                 const matchPassword = await admin.comparePassword(password, admin.password);
                 if (!matchPassword) {
-                    return done(null, false, throwError(400, 'Invalid username or password'));
+                    return done(throwError(400, 'Invalid username or password'), false);
                 }
                 return done(null, admin);
             })
@@ -32,6 +25,23 @@ passport.use(
                 return done(err);
             });
     }),
+);
+
+passport.use(
+    'jwt',
+    new JwtStrategy(
+        {
+            jwtFromRequest: req => req.cookies.jwt,
+            secretOrKey: secret,
+        },
+        (jwtPayload, done) => {
+            if (jwtPayload.expires > Date.now()) {
+                return done('Session expired');
+            }
+            
+            return done(null, jwtPayload);
+        },
+    ),
 );
 
 export default passport;

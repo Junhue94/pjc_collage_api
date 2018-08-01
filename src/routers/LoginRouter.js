@@ -1,10 +1,9 @@
 import express from 'express';
 import { authStrategy } from '../middlewares/auth';
-import { createLogin } from '../controllers/LoginController';
 
 const router = express.Router();
 
 router.route('/')
-    .post(authStrategy('local'), createLogin);
+    .post(authStrategy('local'));
 
 export default router;
