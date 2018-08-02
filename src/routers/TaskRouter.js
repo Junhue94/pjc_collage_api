@@ -18,7 +18,7 @@ router.route('/')
     .post(createTask);
 
 router.route('/:id')
-    .get(getTask)
-    .put(uploadImage(folderAsset), updateTask);
+    .get(requireAuth(), getTask)
+    .put(requireAuth(), uploadImage(folderAsset), updateTask);
 
 export default router;

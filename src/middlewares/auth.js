@@ -4,7 +4,7 @@ import passport from '../modules/Passport';
 import { throwError } from '../utils/error';
 import { isExpired } from '../utils/helper';
 
-const { secret, expiry } = Config.get('token');
+const { secret, expiry, cookieOptions } = Config.get('token');
 
 export const authStrategy = strategy => (req, res, next) => {
     passport.authenticate(strategy, (err, admin) => {
@@ -28,8 +28,8 @@ export const authStrategy = strategy => (req, res, next) => {
             const token = jwt.sign(JSON.stringify(payload), secret);
     
             // assign our jwt to the cookie
-            res.cookie('jwt', token, { httpOnly: true });
-            res.json({ ...payload, token });
+            res.cookie('jwt', token, cookieOptions);
+            res.json({ ...payload, token, success: true });
         });
     })(req, res, next);
 };
