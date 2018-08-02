@@ -1,6 +1,7 @@
 import express from 'express';
 import Config from 'config';
 import { uploadImage } from '../utils/upload';
+import { requireAuth } from '../middlewares/auth';
 import {
     createTask,
     getTask,
@@ -13,7 +14,7 @@ const { folderAsset } = Config.get('s3');
 const router = express.Router();
 
 router.route('/')
-    .get(findTask)
+    .get(requireAuth(), findTask)
     .post(createTask);
 
 router.route('/:id')

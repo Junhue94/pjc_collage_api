@@ -6,3 +6,5 @@ export const generateImageKey = () => {
     const uuid = uuidv4();
     return `${timestamp}_${uuid}`;
 };
+
+export const isExpired = expiry => expiry < Date.now();

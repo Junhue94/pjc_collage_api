@@ -30,6 +30,7 @@
         }],
         // ignore line-break rule
         "linebreak-style": 0,
+        "no-else-return": ["error", { "allowElseIf": true }],
         // disallow reassignment of function parameters
         // disallow parameter object manipulation except for specific exclusions
         "no-param-reassign": ["error", {

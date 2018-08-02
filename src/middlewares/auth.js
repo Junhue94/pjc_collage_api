@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import Config from 'config';
 import passport from '../modules/Passport';
+import { throwError } from '../utils/error';
+import { isExpired } from '../utils/helper';
 
 const { secret, expiry } = Config.get('token');
 
@@ -14,7 +16,7 @@ export const authStrategy = strategy => (req, res, next) => {
     
         const payload = {
             username: admin.username,
-            expires: Date.now() + parseInt(expiry, 10),
+            expiry: Date.now() + parseInt(expiry, 10),
         };
        
         return req.login(payload, { session: false }, (error) => {
@@ -29,5 +31,16 @@ export const authStrategy = strategy => (req, res, next) => {
             res.cookie('jwt', token, { httpOnly: true });
             res.json({ ...payload, token });
         });
+    })(req, res, next);
+};
+
+export const requireAuth = () => (req, res, next) => {
+    passport.authenticate('jwt', (jwtPayload) => {
+        if (!jwtPayload) {
+            return res.json(throwError(401, 'Unauthorized user'));
+        } else if (isExpired(jwtPayload.expiry)) {
+            return res.json(throwError(400, 'Session expired'));
+        }
+        return next();
     })(req, res, next);
 };
